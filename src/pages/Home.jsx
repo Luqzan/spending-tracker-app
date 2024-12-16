@@ -1,23 +1,92 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
-import Graph from "../components/Graph";
 import Info from "../components/Info";
 import CustomButton from "../components/CustomButton";
+import { useContext, useEffect, useState } from "react";
+import SpendingContext from "../context/SpendingContext";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Home() {
   const navigate = useNavigate();
+  const spendingContext = useContext(SpendingContext);
+  const [errors, setErrors] = useState([]);
+  const [timeframe, setTimeframe] = useState("monthly");
 
-  function handleRedirect() {
-    navigate("/protected/spending");
-  }
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const isDataRefreshed = await spendingContext.refreshData();
+
+        if (!isDataRefreshed) {
+          setErrors(["Failed to load data. Try reloading."]);
+        }
+      } catch (err) {
+        console.error(err);
+
+        setErrors(["Failed to load data. Try reloading."]);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    spendingContext.analyzeData();
+  }, [spendingContext.data]);
 
   return (
-    <div className="flex flex-col md:flex-row gap-20 md:gap-8 px-4 md:px-12 items-center md:items-start max-w-[1200px] w-full">
-      <div className="flex flex-col gap-8">
-        <Info spending="1,200.23" />
+    <div>
+      {spendingContext.data.length > 0 ? (
+        <div className="flex flex-col gap-8 items-center">
+          <div className="flex flex-row gap-4">
+            <CustomButton
+              onClick={() => {
+                setTimeframe("daily");
+              }}
+              label="daily"
+            />
 
-        <CustomButton onClick={handleRedirect} label="SEE ALL SPENDING" />
-      </div>
-      <Graph />
+            <CustomButton
+              onClick={() => {
+                setTimeframe("monthly");
+              }}
+              label="monthly"
+            />
+
+            <CustomButton
+              onClick={() => {
+                setTimeframe("yearly");
+              }}
+              label="yearly"
+            />
+          </div>
+
+          <Info timeframe={timeframe} />
+
+          <CustomButton
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/protected/spending");
+            }}
+            label="SEE ALL SPENDING"
+          />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4 items-center">
+          <p className="text-2xl text-center">
+            You have not recorded any spending yet.
+          </p>
+
+          <CustomButton
+            label={"add now"}
+            onClick={() => {
+              navigate("/protected/spending/add");
+            }}
+          />
+        </div>
+      )}
+
+      {errors.length > 0 ? <ErrorMessage errors={errors} /> : null}
     </div>
   );
 }

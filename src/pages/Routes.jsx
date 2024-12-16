@@ -4,6 +4,7 @@ import Home from "./Home";
 import SpendingRoutes from "./spending/Routes";
 import { useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
+import SpendingContextProvider from "../context/SpendingContextProvider";
 
 export default function ProtectedRoutes() {
   const authContext = useContext(AuthContext);
@@ -17,17 +18,23 @@ export default function ProtectedRoutes() {
   }, []);
 
   return (
-    <Routes>
-      <Route
-        path=""
-        element={authContext.user ? <Home /> : <Navigate to="/auth/login" />}
-      />
-      <Route
-        path="spending/*"
-        element={
-          authContext.user ? <SpendingRoutes /> : <Navigate to="/auth/login" />
-        }
-      />
-    </Routes>
+    <SpendingContextProvider>
+      <Routes>
+        <Route
+          path=""
+          element={authContext.user ? <Home /> : <Navigate to="/auth/login" />}
+        />
+        <Route
+          path="spending/*"
+          element={
+            authContext.user ? (
+              <SpendingRoutes />
+            ) : (
+              <Navigate to="/auth/login" />
+            )
+          }
+        />
+      </Routes>
+    </SpendingContextProvider>
   );
 }

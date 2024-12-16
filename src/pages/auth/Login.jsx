@@ -19,7 +19,10 @@ export default function Login() {
     try {
       const response = await axios.post("/login", data);
 
-      if (!response.data.error && (await authContext.isAuthenticated())) {
+      if (
+        response.data.error === false &&
+        (await authContext.isAuthenticated())
+      ) {
         navigate("/protected");
       } else {
         if (response.data.message === "Validation error.") {

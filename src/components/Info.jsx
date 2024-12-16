@@ -1,26 +1,93 @@
-export default function AverageSpending({ spending }) {
+import { useContext } from "react";
+import SpendingContext from "../context/SpendingContext";
+
+export default function AverageSpending({ timeframe }) {
+  const spendingContext = useContext(SpendingContext);
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 items-start">
       <div>
-        <p>Average spending:</p>
-        <div className="flex items-end gap-1">
-          <h1>RM{spending}</h1>
-          <p>/month</p>
-        </div>
+        <p>
+          Average spending per{" "}
+          {timeframe === "daily"
+            ? "day"
+            : timeframe === "monthly"
+            ? "month"
+            : timeframe === "yearly"
+            ? "year"
+            : null}
+          :
+        </p>
+        {spendingContext.analytics ? (
+          <h1>
+            RM
+            {timeframe === "daily"
+              ? spendingContext.analytics.daily.average.toFixed(2)
+              : timeframe === "monthly"
+              ? spendingContext.analytics.monthly.average.toFixed(2)
+              : timeframe === "yearly"
+              ? spendingContext.analytics.yearly.average.toFixed(2)
+              : null}
+          </h1>
+        ) : (
+          <h1>Loading...</h1>
+        )}
       </div>
+
       <div>
-        <p>Max spending:</p>
-        <div className="flex items-end gap-1">
-          <h1>RM{spending}</h1>
-          <p>/month</p>
-        </div>
+        <p>
+          Maximum spending per{" "}
+          {timeframe === "daily"
+            ? "day"
+            : timeframe === "monthly"
+            ? "month"
+            : timeframe === "yearly"
+            ? "year"
+            : null}
+          :
+        </p>
+        {spendingContext.analytics ? (
+          <h1>
+            RM
+            {timeframe === "daily"
+              ? spendingContext.analytics.daily.max.toFixed(2)
+              : timeframe === "monthly"
+              ? spendingContext.analytics.monthly.max.toFixed(2)
+              : timeframe === "yearly"
+              ? spendingContext.analytics.yearly.max.toFixed(2)
+              : null}
+          </h1>
+        ) : (
+          <h1>Loading...</h1>
+        )}
       </div>
+
       <div>
-        <p>Min spending:</p>
-        <div className="flex items-end gap-1">
-          <h1>RM{spending}</h1>
-          <p>/month</p>
-        </div>
+        <p>
+          Minimum spending per{" "}
+          {timeframe === "daily"
+            ? "day"
+            : timeframe === "monthly"
+            ? "month"
+            : timeframe === "yearly"
+            ? "year"
+            : null}
+          :
+        </p>
+        {spendingContext.analytics ? (
+          <h1>
+            RM
+            {timeframe === "daily"
+              ? spendingContext.analytics.daily.min.toFixed(2)
+              : timeframe === "monthly"
+              ? spendingContext.analytics.monthly.min.toFixed(2)
+              : timeframe === "yearly"
+              ? spendingContext.analytics.yearly.min.toFixed(2)
+              : null}
+          </h1>
+        ) : (
+          <h1>Loading...</h1>
+        )}
       </div>
     </div>
   );

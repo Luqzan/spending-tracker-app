@@ -19,7 +19,10 @@ export default function Signup() {
     try {
       const response = await axios.post("/signup", data);
 
-      if (!response.data.error && (await authContext.isAuthenticated())) {
+      if (
+        response.data.error === false &&
+        (await authContext.isAuthenticated())
+      ) {
         navigate("/protected");
       } else {
         if (response.data.message === "Validation error.") {

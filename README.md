@@ -42,7 +42,7 @@ Terminal 2: Start the Backend (Node.js + Express)
 
 npm run serve
 
-This will start the backend server, typically at http://localhost:3000.
+This will start the backend server, typically at http://localhost:8000. You can change it in the .env file.
 
 Additional Notes
 - Frontend: The React + Vite frontend is responsible for the user interface and interacts with the backend API to manage spending data.

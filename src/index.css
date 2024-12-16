@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --font-primary: "Inter", sans-serif;
+  --font-secondary: "Roboto", sans-serif;
+
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+h1 {
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+h2 {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+h3 {
+  font-family: var(--font-secondary);
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+h4 {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+p {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  color: var(--foreground);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #efefef;
+    --foreground: #213547;
+    --background2: #ffffff;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #242424;
+    --foreground: #ffffffde;
+    --background2: #343434;
+  }
+}
